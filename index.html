@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark" data-accent="green">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,24 +10,46 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bg:#0c0e0b;
-    --bg-2:#11140f;
-    --surface:#15180f;
-    --surface-2:#1b1f15;
-    --line:#2a2f20;
-    --line-bright:#3a4129;
-    --ink:#eef0e6;
-    --ink-dim:#a8ad98;
-    --ink-faint:#71765f;
-    --accent:#c8fa3c;
-    --accent-dim:#9bbf2a;
-    --warn:#ffb454;
-    --bad:#ff6b5e;
     --radius:14px;
     --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
     --disp:"Oswald",system-ui,sans-serif;
     --body:"Familjen Grotesk",system-ui,sans-serif;
+    --carb:#5fa3ff;
+    transition:background-color .35s ease, color .35s ease;
   }
+
+  /* ----- base palette by mode (neutral so any accent fits) ----- */
+  :root,[data-theme="dark"]{
+    --bg:#0b0c0e;       --bg-2:#101216;
+    --surface:#15171c;  --surface-2:#1c1f26;
+    --line:#272a31;     --line-bright:#373b44;
+    --ink:#eef0f3;      --ink-dim:#a6abb4;  --ink-faint:#70747d;
+    --warn:#ffb454;     --bad:#ff6b5e;      --carb:#5fa3ff;
+  }
+  [data-theme="light"]{
+    --bg:#f3f4f1;       --bg-2:#ffffff;
+    --surface:#ffffff;  --surface-2:#eef0ec;
+    --line:#e4e6e1;     --line-bright:#d0d3cc;
+    --ink:#181a1e;      --ink-dim:#54585f;  --ink-faint:#8a8e95;
+    --warn:#b9760a;     --bad:#d83a2c;      --carb:#2f7ed8;
+  }
+
+  /* ----- accent family (driven by selected sex) ----- */
+  [data-accent="green"]{
+    --accent:#c2f23f;   --accent-rgb:194,242,63;
+    --accent-2:#7fe267; --accent-2-rgb:127,226,103;
+    --on-accent:#13180a;
+  }
+  [data-accent="pink"]{
+    --accent:#ff5cb0;   --accent-rgb:255,92,176;
+    --accent-2:#a371ff; --accent-2-rgb:163,113,255;
+    --on-accent:#2a0717;
+  }
+  /* readable accent text + dim, tuned per mode */
+  [data-theme="dark"][data-accent="green"]{ --accent-ink:#c8fa3c; --accent-dim:#9bbf2a; }
+  [data-theme="light"][data-accent="green"]{ --accent-ink:#5c7d00; --accent-dim:#6d8f12; }
+  [data-theme="dark"][data-accent="pink"]{  --accent-ink:#ff8ccb; --accent-dim:#cf6aa6; }
+  [data-theme="light"][data-accent="pink"]{ --accent-ink:#c4197a; --accent-dim:#b22c72; }
 
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -40,8 +62,8 @@
     line-height:1.55;
     -webkit-font-smoothing:antialiased;
     background-image:
-      radial-gradient(1100px 520px at 85% -10%, rgba(200,250,60,.10), transparent 60%),
-      radial-gradient(900px 600px at -10% 10%, rgba(120,160,40,.05), transparent 55%),
+      radial-gradient(1100px 520px at 85% -10%, rgba(var(--accent-rgb),.10), transparent 60%),
+      radial-gradient(900px 600px at -10% 10%, rgba(var(--accent-2-rgb),.05), transparent 55%),
       linear-gradient(var(--line) 1px, transparent 1px),
       linear-gradient(90deg, var(--line) 1px, transparent 1px);
     background-size:auto,auto,46px 46px,46px 46px;
@@ -54,19 +76,25 @@
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
+  [data-theme="light"] body::before{opacity:.02;}
+
   .wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 20px 80px;}
 
   /* ---------- header ---------- */
   header.top{padding:46px 0 30px;}
   .brandrow{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;}
+  .theme-toggle{margin-left:auto;align-self:center;display:inline-flex;border:1px solid var(--line-bright);border-radius:999px;overflow:hidden;background:var(--surface);}
+  .theme-toggle button{background:transparent;border:0;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-faint);padding:7px 14px;transition:background .15s,color .15s;}
+  .theme-toggle button.on{background:var(--accent);color:var(--on-accent);}
+  .theme-toggle button:hover:not(.on){color:var(--ink);}
   .logo{
     font-family:var(--disp);font-weight:700;letter-spacing:.14em;
     font-size:clamp(38px,7vw,72px);line-height:.92;text-transform:uppercase;
     color:var(--ink);
   }
-  .logo .dot{color:var(--accent);}
+  .logo .dot{color:var(--accent-ink);}
   .ver{
-    font-family:var(--mono);font-size:11px;color:var(--accent);
+    font-family:var(--mono);font-size:11px;color:var(--accent-ink);
     border:1px solid var(--line-bright);border-radius:999px;padding:3px 9px;
     letter-spacing:.08em;white-space:nowrap;
   }
@@ -86,7 +114,7 @@
   .section::after{content:"";position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent);opacity:.55;}
   .sec-head{display:flex;align-items:center;gap:12px;margin:0 0 18px;}
   .sec-num{
-    font-family:var(--mono);font-size:12px;color:var(--bg);background:var(--accent);
+    font-family:var(--mono);font-size:12px;color:var(--on-accent);background:var(--accent);
     border-radius:6px;padding:2px 8px;font-weight:700;
   }
   .sec-title{font-family:var(--disp);text-transform:uppercase;letter-spacing:.1em;font-weight:600;font-size:18px;margin:0;}
@@ -104,7 +132,7 @@
     padding:12px 13px;font-family:var(--mono);font-size:15px;outline:none;
     transition:border-color .15s,box-shadow .15s;
   }
-  input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(200,250,60,.16);}
+  input:focus,select:focus{border-color:var(--accent-ink);box-shadow:0 0 0 3px rgba(var(--accent-rgb),.16);}
   input::placeholder{color:var(--ink-faint);}
   .inline{display:flex;gap:10px;}
   .inline .ic{position:relative;flex:1;}
@@ -122,8 +150,8 @@
   }
   .seg label:hover{border-color:var(--ink-faint);color:var(--ink);}
   .seg input:checked + label{
-    background:var(--accent);color:#10130b;border-color:var(--accent);font-weight:600;
-    box-shadow:0 0 0 3px rgba(200,250,60,.15);
+    background:var(--accent);color:var(--on-accent);border-color:var(--accent-ink);font-weight:600;
+    box-shadow:0 0 0 3px rgba(var(--accent-rgb),.15);
   }
 
   .chips{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
@@ -142,8 +170,8 @@
   .chip label .bx svg{opacity:0;transition:opacity .12s;}
   .chip label .ctxt{font-size:13.5px;line-height:1.25;color:var(--ink-dim);}
   .chip label:hover{border-color:var(--ink-faint);}
-  .chip input:checked + label{border-color:var(--accent);background:rgba(200,250,60,.07);}
-  .chip input:checked + label .bx{background:var(--accent);border-color:var(--accent);}
+  .chip input:checked + label{border-color:var(--accent-ink);background:rgba(var(--accent-rgb),.07);}
+  .chip input:checked + label .bx{background:var(--accent);border-color:var(--accent-ink);}
   .chip input:checked + label .bx svg{opacity:1;}
   .chip input:checked + label .ctxt{color:var(--ink);}
 
@@ -155,14 +183,38 @@
   .btn{
     font-family:var(--disp);text-transform:uppercase;letter-spacing:.12em;font-weight:600;
     font-size:16px;border:0;border-radius:11px;padding:15px 30px;cursor:pointer;
-    background:var(--accent);color:#10130b;transition:transform .12s,box-shadow .15s,background .15s;
-    box-shadow:0 8px 26px rgba(200,250,60,.18);
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--on-accent);
+    transition:transform .12s,box-shadow .15s,background .15s;
+    box-shadow:0 8px 26px rgba(var(--accent-rgb),.18);
   }
-  .btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(200,250,60,.28);}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(var(--accent-rgb),.28);}
   .btn:active{transform:translateY(0);}
   .btn.ghost{background:transparent;color:var(--ink-dim);box-shadow:none;border:1px solid var(--line-bright);}
   .btn.ghost:hover{color:var(--ink);border-color:var(--ink-faint);transform:none;}
   .err{color:var(--bad);font-size:13px;font-family:var(--mono);min-height:18px;}
+
+  /* activity / sport cards */
+  .acts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+  @media(max-width:560px){.acts{grid-template-columns:1fr;}}
+  .act{border:1px solid var(--line-bright);border-radius:11px;background:var(--bg);transition:border-color .15s,background .15s;}
+  .act input.actck{position:absolute;opacity:0;pointer-events:none;}
+  .act .act-head{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;padding:12px 13px;}
+  .act .act-head .bx{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--ink-faint);flex:none;display:grid;place-items:center;transition:all .15s;}
+  .act .act-head .bx svg{opacity:0;transition:opacity .12s;}
+  .act .act-head .aname{font-size:13.5px;color:var(--ink-dim);flex:1;line-height:1.2;}
+  .act .act-head .tag{font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--ink-faint);border:1px solid var(--line-bright);border-radius:999px;padding:2px 7px;white-space:nowrap;}
+  .act input.actck:checked ~ .act-head .bx{background:var(--accent);border-color:var(--accent-ink);}
+  .act input.actck:checked ~ .act-head .bx svg{opacity:1;}
+  .act input.actck:checked ~ .act-head .aname{color:var(--ink);}
+  .act:has(input.actck:checked){border-color:var(--accent-ink);background:rgba(var(--accent-rgb),.06);}
+  .act .act-body{display:none;gap:10px;padding:0 13px 13px 41px;}
+  .act input.actck:checked ~ .act-body{display:flex;}
+  .act .act-body .mini{flex:1;display:flex;flex-direction:column;gap:4px;}
+  .act .act-body label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);}
+  .act .act-body .ic2{position:relative;}
+  .act .act-body input{width:100%;background:var(--bg-2);color:var(--ink);border:1px solid var(--line-bright);border-radius:8px;padding:8px 30px 8px 10px;font-family:var(--mono);font-size:13px;outline:none;}
+  .act .act-body input:focus{border-color:var(--accent-ink);box-shadow:0 0 0 2px rgba(var(--accent-rgb),.16);}
+  .act .act-body .ic2 .u2{position:absolute;right:9px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:10px;color:var(--ink-faint);pointer-events:none;}
 
   /* ---------- results ---------- */
   #results{margin-top:40px;display:none;}
@@ -171,7 +223,7 @@
 
   .res-banner{
     font-family:var(--disp);text-transform:uppercase;letter-spacing:.16em;
-    font-size:13px;color:var(--accent);display:flex;align-items:center;gap:12px;margin-bottom:8px;
+    font-size:13px;color:var(--accent-ink);display:flex;align-items:center;gap:12px;margin-bottom:8px;
   }
   .res-banner::before,.res-banner::after{content:"";height:1px;background:var(--line-bright);flex:1;}
 
@@ -184,8 +236,8 @@
   .stat .k{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);}
   .stat .v{font-family:var(--mono);font-weight:700;font-size:30px;color:var(--ink);line-height:1.1;margin-top:6px;}
   .stat .v small{font-size:13px;color:var(--ink-dim);font-weight:500;}
-  .stat.hl{border-color:var(--accent);background:linear-gradient(180deg,rgba(200,250,60,.10),var(--surface));}
-  .stat.hl .v{color:var(--accent);}
+  .stat.hl{border-color:var(--accent-ink);background:linear-gradient(180deg,rgba(var(--accent-rgb),.10),var(--surface));}
+  .stat.hl .v{color:var(--accent-ink);}
 
   .panel{
     background:linear-gradient(180deg,var(--surface),var(--bg-2));
@@ -195,7 +247,7 @@
     font-family:var(--disp);text-transform:uppercase;letter-spacing:.1em;font-weight:600;
     font-size:17px;margin:0 0 16px;display:flex;align-items:center;gap:10px;
   }
-  .panel h3 .tagnum{font-family:var(--mono);font-size:11px;color:var(--accent);border:1px solid var(--line-bright);border-radius:6px;padding:2px 7px;letter-spacing:.05em;}
+  .panel h3 .tagnum{font-family:var(--mono);font-size:11px;color:var(--accent-ink);border:1px solid var(--line-bright);border-radius:6px;padding:2px 7px;letter-spacing:.05em;}
 
   /* macro bars */
   .macro-bar{height:14px;border-radius:8px;overflow:hidden;display:flex;border:1px solid var(--line-bright);margin:4px 0 18px;}
@@ -216,17 +268,29 @@
   /* workout */
   .wk-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;}
   .wk-meta .badge{font-family:var(--mono);font-size:12px;color:var(--ink-dim);background:var(--bg);border:1px solid var(--line-bright);border-radius:999px;padding:5px 12px;}
-  .wk-meta .badge b{color:var(--accent);}
+  .wk-meta .badge b{color:var(--accent-ink);}
   .day{border:1px solid var(--line);border-radius:12px;margin-top:14px;overflow:hidden;}
   .day-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;background:var(--surface-2);}
   .day-head .dname{font-family:var(--disp);text-transform:uppercase;letter-spacing:.08em;font-size:15px;}
-  .day-head .dtype{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.05em;}
+  .day-head .dtype{font-family:var(--mono);font-size:11px;color:var(--accent-ink);letter-spacing:.05em;}
   table.ex{width:100%;border-collapse:collapse;}
   table.ex td{padding:11px 16px;border-top:1px solid var(--line);font-size:14.5px;vertical-align:middle;}
   table.ex tr td:first-child{color:var(--ink);}
   table.ex tr td:last-child{text-align:right;font-family:var(--mono);font-size:13px;color:var(--accent-dim);white-space:nowrap;}
   .cardio-note{margin-top:14px;padding:14px 16px;border:1px dashed var(--line-bright);border-radius:11px;color:var(--ink-dim);font-size:14px;}
-  .cardio-note b{color:var(--accent);}
+  .cardio-note b{color:var(--accent-ink);}
+
+  .recov{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;}
+  @media(max-width:560px){.recov{grid-template-columns:1fr;gap:12px;}}
+  .recov .big{font-family:var(--mono);font-weight:700;font-size:46px;line-height:1;color:var(--accent-ink);white-space:nowrap;}
+  .recov .big small{font-size:16px;color:var(--ink-dim);font-weight:500;}
+  .recov .sub{color:var(--ink-dim);font-size:14.5px;}
+  .recov .sub b{color:var(--ink);}
+  .planner{margin-top:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:14px;}
+  .planner label{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);}
+  .planner input[type=time]{background:var(--bg);color:var(--ink);border:1px solid var(--line-bright);border-radius:9px;padding:9px 11px;font-family:var(--mono);font-size:14px;outline:none;}
+  .planner input[type=time]:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(var(--accent-rgb),.16);}
+  .planner .bed{font-family:var(--mono);color:var(--accent-ink);font-weight:700;font-size:18px;}
 
   .disclaimer{margin-top:26px;border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:var(--bg-2);color:var(--ink-faint);font-size:13px;line-height:1.6;}
   .disclaimer b{color:var(--warn);}
@@ -247,7 +311,11 @@
   <header class="top">
     <div class="brandrow">
       <div class="logo">BASE<span class="dot">·</span>LINE</div>
-      <span class="ver">PROTOCOL v1.0</span>
+      <span class="ver">PROTOCOL v1.1</span>
+      <div class="theme-toggle" role="group" aria-label="Color theme">
+        <button type="button" id="theme-dark" class="on">Dark</button>
+        <button type="button" id="theme-light">Light</button>
+      </div>
     </div>
     <p class="tag">Answer a few questions and get personalized calorie, macro, diet and equipment-tailored training recommendations. Everything runs in your browser — no data leaves this page.</p>
     <hr class="hr" />
@@ -329,14 +397,14 @@
       <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Activity &amp; Goal</h2></div>
 
       <div class="field full">
-        <label class="lbl" for="activity">Activity level</label>
+        <label class="lbl" for="activity">Daily lifestyle activity <span style="text-transform:none;letter-spacing:0;color:var(--ink-faint)">(your day, NOT counting workouts)</span></label>
         <select id="activity">
-          <option value="1.2">Sedentary — desk job, little/no exercise</option>
-          <option value="1.375">Lightly active — light exercise 1–3 days/wk</option>
-          <option value="1.55" selected>Moderately active — exercise 3–5 days/wk</option>
-          <option value="1.725">Very active — hard exercise 6–7 days/wk</option>
-          <option value="1.9">Extra active — physical job + daily training</option>
+          <option value="1.2">Mostly sitting — desk job, little daily walking</option>
+          <option value="1.3" selected>Lightly active — some walking &amp; standing</option>
+          <option value="1.45">On your feet often — teaching, retail, parenting</option>
+          <option value="1.6">Physically demanding job — manual labor, trades</option>
         </select>
+        <span class="hint">Workouts get added separately below, so pick this based on normal daily life only.</span>
       </div>
 
       <div class="grid" style="margin-top:16px">
@@ -367,12 +435,33 @@
             <label for="d6">6</label>
           </div>
         </div>
+
+        <div class="field full">
+          <span class="lbl">Macro style <span style="text-transform:none;letter-spacing:0;color:var(--ink-faint)">(how protein / carbs / fat are split)</span></span>
+          <div class="seg" role="radiogroup" aria-label="Macro style">
+            <input type="radio" name="macro" id="m-standard" value="standard" checked />
+            <label for="m-standard">Standard</label>
+            <input type="radio" name="macro" id="m-highpro" value="highprotein" />
+            <label for="m-highpro">High protein</label>
+            <input type="radio" name="macro" id="m-lowcarb" value="lowcarb" />
+            <label for="m-lowcarb">Low carb</label>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- 03 EQUIPMENT -->
+    <!-- 03 CARDIO & SPORT -->
     <section class="section">
-      <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">Available Equipment</h2></div>
+      <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">Cardio &amp; Sport</h2></div>
+      <p class="hint" style="margin:-8px 0 16px">Select the cardio &amp; sport activities you do on top of the strength plan, then set how often and how long. We add the estimated calorie burn to your daily needs. <em>Don't log the same session twice.</em></p>
+      <div class="acts" id="activities">
+        <!-- activity cards injected by JS -->
+      </div>
+    </section>
+
+    <!-- 04 EQUIPMENT -->
+    <section class="section">
+      <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">Available Equipment</h2></div>
       <p class="hint" style="margin:-8px 0 16px">Pick everything you have access to. Bodyweight movements are always included. Leave all unchecked for a no-equipment plan.</p>
       <div class="chips" id="equip">
         <!-- chips injected by JS -->
@@ -420,6 +509,62 @@
       "<label for='eq-"+e.k+"'><span class='bx'>"+checkSvg+"</span><span class='ctxt'>"+e.label+"</span></label>";
     chipsBox.appendChild(div);
   });
+
+  /* ---------- cardio & sport activities ----------
+     met = metabolic equivalent (kcal/min ≈ met * 3.5 * kg / 200).
+     Values are typical moderate-to-vigorous efforts from the Compendium
+     of Physical Activities; real burn varies with intensity & fitness. */
+  const ACTIVITIES = [
+    {k:"running",   label:"Running / Jogging",        met:9.8},
+    {k:"cycling",   label:"Cycling / Biking",          met:8.0},
+    {k:"crossfit",  label:"CrossFit / WOD",            met:9.0},
+    {k:"mma",       label:"MMA / Boxing / Martial arts",met:9.5},
+    {k:"hiit",      label:"HIIT / Circuit training",    met:8.0},
+    {k:"swimming",  label:"Swimming (laps)",            met:7.0},
+    {k:"rowing",    label:"Rowing machine / Erg",       met:8.5},
+    {k:"jumprope",  label:"Jump rope",                  met:9.8},
+    {k:"elliptical",label:"Elliptical / Stair climber", met:7.5},
+    {k:"hiking",    label:"Hiking",                     met:6.0},
+    {k:"walking",   label:"Brisk walking",              met:4.3},
+    {k:"basketball",label:"Basketball",                 met:7.0},
+    {k:"soccer",    label:"Soccer / Field sports",      met:8.0},
+    {k:"tennis",    label:"Tennis / Racquet sports",    met:7.3},
+    {k:"climbing",  label:"Rock / Indoor climbing",     met:8.0},
+    {k:"dance",     label:"Dance / Aerobics",           met:6.5},
+    {k:"skiing",    label:"Skiing / Snowboarding",      met:7.0},
+    {k:"yoga",      label:"Yoga / Pilates",             met:3.3},
+  ];
+
+  function intensityTag(met){
+    if(met < 4) return "Light";
+    if(met < 6) return "Moderate";
+    if(met < 8) return "High";
+    return "Very high";
+  }
+
+  const actsBox = document.getElementById("activities");
+  ACTIVITIES.forEach(function(a){
+    const div = document.createElement("div");
+    div.className = "act";
+    div.innerHTML =
+      "<input type='checkbox' class='actck' id='act-"+a.k+"' value='"+a.k+"'>"+
+      "<label class='act-head' for='act-"+a.k+"'>"+
+        "<span class='bx'>"+checkSvg+"</span>"+
+        "<span class='aname'>"+a.label+"</span>"+
+        "<span class='tag'>"+intensityTag(a.met)+"</span>"+
+      "</label>"+
+      "<div class='act-body'>"+
+        "<div class='mini'><label for='freq-"+a.k+"'>Sessions / wk</label>"+
+          "<div class='ic2'><input type='number' id='freq-"+a.k+"' min='1' max='14' step='1' placeholder='3'><span class='u2'>×</span></div></div>"+
+        "<div class='mini'><label for='dur-"+a.k+"'>Min / session</label>"+
+          "<div class='ic2'><input type='number' id='dur-"+a.k+"' min='5' max='240' step='5' placeholder='30'><span class='u2'>min</span></div></div>"+
+      "</div>";
+    actsBox.appendChild(div);
+  });
+
+  /* strength-training calorie assumptions (your generated split) */
+  const STRENGTH_MET = 5.0;     // mixed resistance training
+  const STRENGTH_MIN = 55;      // assumed minutes per session
 
   /* ---------- exercise library ----------
      Each exercise: { n: name, all: [equipment keys ALL required] }
@@ -596,7 +741,21 @@
       bmr = 10*weightKg + 6.25*d.heightCm - 5*d.age - 161;
       formula = "Mifflin-St Jeor";
     }
-    const tdee = bmr * d.activity;
+    // ---- additive energy model ----
+    // baseline = BMR x your non-exercise daily-life multiplier (NEAT)
+    const baselineTDEE = bmr * d.activity;
+
+    // kcal burned in one session of a given MET intensity & duration
+    function metKcal(met, minutes){ return met * 3.5 * weightKg / 200 * minutes; }
+
+    // (1) strength training from the generated split (training days/week)
+    const strengthKcalWeek = (d.days || 0) * metKcal(STRENGTH_MET, STRENGTH_MIN);
+    // (2) logged cardio & sport activities
+    let activityKcalWeek = 0;
+    (d.activities || []).forEach(function(a){ activityKcalWeek += metKcal(a.met, a.dur) * a.freq; });
+
+    const exerciseKcalDay = Math.round((strengthKcalWeek + activityKcalWeek) / 7);
+    const tdee = baselineTDEE + exerciseKcalDay;
 
     const factor = d.goal==="lose"?0.80 : d.goal==="build"?1.10 : 1.0;
     let target = Math.round((tdee*factor)/10)*10;
@@ -604,37 +763,64 @@
     let floored=false;
     if(d.goal==="lose" && target<floor){ target=floor; floored=true; }
 
-    // protein
-    let proteinG;
-    if(lbmKg){ proteinG = 2.6*lbmKg; }
-    else {
-      const perKg = d.goal==="lose"?2.2 : d.goal==="build"?2.0 : 1.8;
-      proteinG = perKg*weightKg;
-    }
-    let protein = Math.round(proteinG);
-
-    // fat (~25% of cals, min ~0.35 g/kg for hormones)
-    let fat = Math.round(target*0.25/9);
+    // ---- macros (style-aware) ----
+    const style = d.macroStyle || "standard";
     const minFat = Math.round(0.35*weightKg);
-    if(fat<minFat) fat=minFat;
 
-    // carbs = remainder, keep a sensible carb floor by trimming fat if needed
-    let carbCals = target - protein*4 - fat*9;
-    if(carbCals < 120){
-      const reduce = Math.ceil((120-carbCals)/9);
-      fat = Math.max(minFat, fat-reduce);
-      carbCals = target - protein*4 - fat*9;
+    // protein targets per goal; bumped for high-protein, solid for low-carb
+    let pBW, pLBM;
+    if(style==="highprotein"){ pBW={lose:2.6, maintain:2.2, build:2.4}; pLBM=3.1; }
+    else if(style==="lowcarb"){ pBW={lose:2.3, maintain:2.0, build:2.1}; pLBM=2.8; }
+    else { pBW={lose:2.2, maintain:1.8, build:2.0}; pLBM=2.6; }
+    let protein = Math.round(lbmKg ? pLBM*lbmKg : pBW[d.goal]*weightKg);
+
+    let fat, carbs;
+    if(style==="lowcarb"){
+      // cap carbs (lower of ~20% of cals or 1.1 g/kg); fat fills the rest
+      let carbCap = Math.round(Math.min(0.20*target/4, 1.1*weightKg));
+      carbs = Math.max(30, carbCap);
+      fat = Math.round((target - protein*4 - carbs*4)/9);
+      if(fat < minFat){ // protein+carbs left too little for a healthy fat floor → trim carbs
+        carbs = Math.max(20, Math.round((target - protein*4 - minFat*9)/4));
+        fat = Math.max(minFat, Math.round((target - protein*4 - carbs*4)/9));
+      }
+    } else {
+      const fatPct = style==="highprotein" ? 0.23 : 0.25;
+      fat = Math.round(target*fatPct/9);
+      if(fat<minFat) fat=minFat;
+      let carbCals = target - protein*4 - fat*9;
+      if(carbCals < 120){
+        const reduce = Math.ceil((120-carbCals)/9);
+        fat = Math.max(minFat, fat-reduce);
+        carbCals = target - protein*4 - fat*9;
+      }
+      carbs = Math.max(0, Math.round(carbCals/4));
     }
-    let carbs = Math.max(0, Math.round(carbCals/4));
 
     const macroCals = protein*4 + fat*9 + carbs*4;
     const pPct = Math.round(protein*4/macroCals*100);
     const cPct = Math.round(carbs*4/macroCals*100);
     const fPct = 100 - pPct - cPct;
 
+    // ---- hydration ----  ~35 ml/kg baseline + ~12 ml per daily minute of training
+    let weeklyTrainMin = (d.days||0)*STRENGTH_MIN;
+    (d.activities||[]).forEach(function(a){ weeklyTrainMin += a.freq*a.dur; });
+    const dailyTrainMin = weeklyTrainMin/7;
+    const waterMl = Math.round((35*weightKg + dailyTrainMin*12)/50)*50;
+
+    // ---- sleep ----  8h base for a training adult + extra scaled by training burn
+    const sleepBaseMin = 480;
+    const sleepExtra = Math.round(Math.min(75, exerciseKcalDay/10)/5)*5;
+    const sleepMin = sleepBaseMin + sleepExtra;
+
     return {bmr:Math.round(bmr), tdee:Math.round(tdee), target:target, formula:formula,
             protein:protein, fat:fat, carbs:carbs, pPct:pPct, cPct:cPct, fPct:fPct,
-            floored:floored, macroCals:macroCals};
+            floored:floored, macroCals:macroCals, style:style,
+            baseline:Math.round(baselineTDEE), exercise:exerciseKcalDay,
+            strengthKcalDay:Math.round(strengthKcalWeek/7),
+            activityKcalDay:Math.round(activityKcalWeek/7),
+            waterMl:waterMl, dailyTrainMin:Math.round(dailyTrainMin),
+            sleepMin:sleepMin, sleepExtra:sleepExtra};
   }
 
   /* ---------- diet guidance ---------- */
@@ -661,12 +847,21 @@
 
   /* ---------- render ---------- */
   function esc(s){return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+  function fmtHM(min){ const h=Math.floor(min/60), m=min%60; return h+"<small>h</small> "+(m<10?"0"+m:m)+"<small>m</small>"; }
 
   function render(d, r, plan){
     const lbBack = function(kg){ return d.units==="imperial" ? Math.round(kg*2.20462) : kg; };
     const out = document.getElementById("results");
 
     let goalLabel = d.goal==="lose"?"Fat Loss":d.goal==="build"?"Muscle Gain":"Maintenance";
+
+    const styleMap = {
+      standard:["Standard split","balanced — protein anchored, ~25% of calories from fat, the rest carbs."],
+      highprotein:["High protein","protein pushed high for satiety and muscle retention, with fat trimmed slightly to make room."],
+      lowcarb:["Low carb","carbs capped low and dietary fat makes up the difference — good for appetite control, though top-end performance can dip at first."]
+    };
+    const styleLabel = (styleMap[r.style]||styleMap.standard)[0];
+    const styleBlurb = (styleMap[r.style]||styleMap.standard)[1];
 
     let html = "";
     html += "<div class='res-banner'>Protocol generated — "+esc(goalLabel)+"</div>";
@@ -678,25 +873,49 @@
     html += "<div class='stat hl'><div class='k'>Daily Target</div><div class='v'>"+r.target+" <small>kcal</small></div></div>";
     html += "<div class='stat'><div class='k'>Protein / day</div><div class='v'>"+r.protein+" <small>g</small></div></div>";
     html += "</div>";
-    html += "<p class='hint' style='margin:-6px 0 0'>Calculated with the "+esc(r.formula)+" formula × your activity multiplier ("+d.activity+")."+
+    html += "<p class='hint' style='margin:-6px 0 0'>"+esc(r.formula)+" BMR × lifestyle ("+d.activity+") = <b style='color:var(--ink-dim)'>"+r.baseline+"</b> baseline + <b style='color:var(--ink-dim)'>"+r.exercise+"</b> kcal/day from training ("+d.days+" strength session"+(d.days===1?"":"s")+(d.activities.length? " + "+d.activities.length+" logged "+(d.activities.length===1?"activity":"activities"):"")+") = <b style='color:var(--accent-ink)'>"+r.tdee+"</b> maintenance."+
             (r.floored?" <span style='color:var(--warn)'>Target raised to a safe minimum floor.</span>":"")+"</p>";
 
     // macros
     html += "<div class='panel'><h3><span class='tagnum'>MACROS</span> Daily Macronutrient Targets</h3>";
     html += "<div class='macro-bar'>"+
             "<span style='width:"+r.pPct+"%;background:var(--accent)'></span>"+
-            "<span style='width:"+r.cPct+"%;background:#5fa3ff'></span>"+
+            "<span style='width:"+r.cPct+"%;background:var(--carb)'></span>"+
             "<span style='width:"+r.fPct+"%;background:var(--warn)'></span></div>";
     html += "<div class='macros'>";
-    html += "<div class='macro' style='border-left-color:var(--accent)'><div class='mlabel'>Protein</div><div class='mg'>"+r.protein+"<span style='font-size:14px;color:var(--ink-dim)'> g</span></div><div class='msub'>"+r.pPct+"% · "+(r.protein*4)+" kcal</div></div>";
-    html += "<div class='macro' style='border-left-color:#5fa3ff'><div class='mlabel'>Carbs</div><div class='mg'>"+r.carbs+"<span style='font-size:14px;color:var(--ink-dim)'> g</span></div><div class='msub'>"+r.cPct+"% · "+(r.carbs*4)+" kcal</div></div>";
+    html += "<div class='macro' style='border-left-color:var(--accent-ink)'><div class='mlabel'>Protein</div><div class='mg'>"+r.protein+"<span style='font-size:14px;color:var(--ink-dim)'> g</span></div><div class='msub'>"+r.pPct+"% · "+(r.protein*4)+" kcal</div></div>";
+    html += "<div class='macro' style='border-left-color:var(--carb)'><div class='mlabel'>Carbs</div><div class='mg'>"+r.carbs+"<span style='font-size:14px;color:var(--ink-dim)'> g</span></div><div class='msub'>"+r.cPct+"% · "+(r.carbs*4)+" kcal</div></div>";
     html += "<div class='macro' style='border-left-color:var(--warn)'><div class='mlabel'>Fat</div><div class='mg'>"+r.fat+"<span style='font-size:14px;color:var(--ink-dim)'> g</span></div><div class='msub'>"+r.fPct+"% · "+(r.fat*9)+" kcal</div></div>";
-    html += "</div></div>";
+    html += "</div>";
+    html += "<p class='hint' style='margin:14px 0 0'>Macro style: <b style='color:var(--accent-ink)'>"+esc(styleLabel)+"</b> — "+styleBlurb+"</p>";
+    html += "</div>";
 
     // diet
     html += "<div class='panel'><h3><span class='tagnum'>DIET</span> Nutrition Strategy</h3><ul class='clean'>";
     dietTips(d,r).forEach(function(t){ html += "<li>"+t+"</li>"; });
     html += "</ul></div>";
+
+    // hydration
+    const waterL = (r.waterMl/1000);
+    const waterOz = Math.round(r.waterMl/29.574);
+    const waterCups = Math.round(r.waterMl/240);
+    html += "<div class='panel'><h3><span class='tagnum'>HYDRATE</span> Daily Water Target</h3>";
+    html += "<div class='recov'>";
+    html += "<div class='big'>"+waterL.toFixed(1)+" <small>L</small></div>";
+    html += "<div class='sub'>≈ <b>"+waterOz+" oz</b> · about <b>"+waterCups+" cups</b> spread through the day. Based on ~35 ml per kg of body weight plus your ~"+r.dailyTrainMin+" min/day of training. Add 0.5–1 L on hot days or long sessions.</div>";
+    html += "</div>";
+    html += "<div class='cardio-note' style='margin-top:16px'><b>Quick gauge:</b> aim for pale-yellow urine. Sip steadily rather than chugging, front-load earlier in the day, and remember coffee, tea, milk and watery foods all count toward the total.</div>";
+    html += "</div>";
+
+    // sleep
+    html += "<div class='panel'><h3><span class='tagnum'>SLEEP</span> Recovery Sleep Target</h3>";
+    html += "<div class='recov'>";
+    html += "<div class='big'>"+fmtHM(r.sleepMin)+"</div>";
+    html += "<div class='sub'>An 8h base for an active adult <b>+ "+r.sleepExtra+" min</b> to recover from your ~"+r.exercise+" kcal/day training load. Heavier weeks tilt toward the top end — and a consistent bed/wake time matters as much as the total.</div>";
+    html += "</div>";
+    html += "<div class='planner'><label for='wake'>Wake at</label><input type='time' id='wake' value='07:00'><span class='sub'>→ lights out by</span><span class='bed' id='bedtime'>—</span></div>";
+    html += "<div class='cardio-note' style='margin-top:14px'>Bedtime allows ~20 min to fall asleep. Keep the room dark and cool (~18 °C / 65 °F) and dim screens for an hour beforehand.</div>";
+    html += "</div>";
 
     // workout
     const dayCount = d.days;
@@ -717,7 +936,12 @@
       html += "</table></div>";
     });
 
-    html += "<div class='cardio-note'>"+cardioFor(d.goal)+"</div>";
+    if(d.activities.length){
+      const parts = d.activities.map(function(a){ return esc(a.label)+" "+a.freq+"×"+a.dur+" min"; });
+      html += "<div class='cardio-note'><b>Your conditioning (already in your calorie math):</b> "+parts.join(" · ")+". That's ≈ "+r.activityKcalDay+" kcal/day on top of ≈ "+r.strengthKcalDay+" kcal/day from your "+d.days+" lifting session"+(d.days===1?"":"s")+".</div>";
+    } else {
+      html += "<div class='cardio-note'>"+cardioFor(d.goal)+"</div>";
+    }
     html += "<div class='cardio-note'><b>Progressive overload:</b> each week try to add a rep, a little load, or one extra set to a few lifts. That steady progression — not any single workout — is what drives results. Warm up 5–10 min and leave 1–2 reps in reserve on most sets.</div>";
     html += "</div>";
 
@@ -725,6 +949,26 @@
     html += "<div class='disclaimer'><b>Heads up:</b> These are general estimates from population-level formulas, not personalized medical or nutritional advice. Individual needs vary. If you're pregnant, have a medical condition or eating disorder history, are under 18, or are unsure how to start, please check with a doctor or registered dietitian first. Adjust based on real-world results over 2–4 weeks rather than chasing the numbers exactly.</div>";
 
     out.innerHTML = html;
+
+    // sleep planner: wake time -> suggested lights-out (sleep need + ~20 min latency)
+    const wakeEl = document.getElementById("wake");
+    if(wakeEl){
+      const backMin = r.sleepMin + 20;
+      const calcBed = function(){
+        const p = (wakeEl.value || "").split(":");
+        if(p.length < 2) return;
+        let mins = parseInt(p[0],10)*60 + parseInt(p[1],10);
+        if(isNaN(mins)) return;
+        mins = ((mins - backMin) % 1440 + 1440) % 1440;
+        const h24 = Math.floor(mins/60), m = mins%60;
+        const ap = h24 < 12 ? "AM" : "PM";
+        let h12 = h24 % 12; if(h12===0) h12 = 12;
+        document.getElementById("bedtime").textContent = h12+":"+(m<10?"0"+m:m)+" "+ap;
+      };
+      wakeEl.addEventListener("input", calcBed);
+      calcBed();
+    }
+
     out.classList.add("show");
     out.scrollIntoView({behavior:"smooth", block:"start"});
   }
@@ -742,6 +986,26 @@
   document.querySelectorAll("input[name=units]").forEach(function(el){ el.addEventListener("change", syncUnits); });
   syncUnits();
 
+  /* ---------- theme: dark / light ---------- */
+  const root = document.documentElement;
+  const tDark = document.getElementById("theme-dark");
+  const tLight = document.getElementById("theme-light");
+  function setTheme(mode){
+    root.setAttribute("data-theme", mode);
+    tDark.classList.toggle("on", mode==="dark");
+    tLight.classList.toggle("on", mode==="light");
+  }
+  tDark.addEventListener("click", function(){ setTheme("dark"); });
+  tLight.addEventListener("click", function(){ setTheme("light"); });
+
+  /* ---------- accent follows selected sex (female → pink/purple) ---------- */
+  function syncAccent(){
+    const sex = document.querySelector("input[name=sex]:checked").value;
+    root.setAttribute("data-accent", sex==="female" ? "pink" : "green");
+  }
+  document.querySelectorAll("input[name=sex]").forEach(function(el){ el.addEventListener("change", syncAccent); });
+  syncAccent();
+
   /* ---------- collect + validate ---------- */
   function num(id){ const v=parseFloat(document.getElementById(id).value); return isNaN(v)?null:v; }
 
@@ -751,6 +1015,7 @@
     const sex = document.querySelector("input[name=sex]:checked").value;
     const goal = document.querySelector("input[name=goal]:checked").value;
     const days = parseInt(document.querySelector("input[name=days]:checked").value,10);
+    const macroStyle = document.querySelector("input[name=macro]:checked").value;
     const activity = parseFloat(document.getElementById("activity").value);
 
     const age = num("age");
@@ -783,9 +1048,21 @@
       if(cb && cb.checked){ avail.add(e.k); equipList.push(e.label); }
     });
 
-    return {errs:errs, data:{units:u, sex:sex, goal:goal, days:days, activity:activity,
+    const activities=[];
+    ACTIVITIES.forEach(function(a){
+      const cb=document.getElementById("act-"+a.k);
+      if(cb && cb.checked){
+        let freq = parseInt(document.getElementById("freq-"+a.k).value,10);
+        let dur  = parseInt(document.getElementById("dur-"+a.k).value,10);
+        if(isNaN(freq)||freq<1) freq=3; if(freq>14) freq=14;
+        if(isNaN(dur)||dur<5) dur=30;  if(dur>240) dur=240;
+        activities.push({k:a.k, label:a.label, met:a.met, freq:freq, dur:dur});
+      }
+    });
+
+    return {errs:errs, data:{units:u, sex:sex, goal:goal, days:days, activity:activity, macroStyle:macroStyle,
             age:age, heightCm:heightCm, weightKg:weightKg, lbmKg:lbmKg,
-            avail:avail, equipList:equipList}};
+            avail:avail, equipList:equipList, activities:activities}};
   }
 
   /* ---------- submit ---------- */
@@ -807,6 +1084,7 @@
   document.getElementById("reset").addEventListener("click", function(){
     document.getElementById("f").reset();
     syncUnits();
+    syncAccent();
     document.getElementById("err").textContent="";
     const out=document.getElementById("results");
     out.classList.remove("show"); out.innerHTML="";
