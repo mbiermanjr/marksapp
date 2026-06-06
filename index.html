@@ -292,6 +292,71 @@
   .planner input[type=time]:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(var(--accent-rgb),.16);}
   .planner .bed{font-family:var(--mono);color:var(--accent-ink);font-weight:700;font-size:18px;}
 
+  /* ---------- premium / paywall ---------- */
+  .pro-badge{display:none;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--on-accent);background:var(--accent);border-radius:6px;padding:3px 8px;vertical-align:middle;}
+  body[data-premium="false"] .pro-badge{display:inline-flex;}
+  .lock-overlay{display:none;}
+  body[data-premium="false"] .premium-section{position:relative;}
+  body[data-premium="false"] .premium-section .lock-overlay{
+    display:flex;position:absolute;inset:0;z-index:6;align-items:center;justify-content:center;flex-direction:column;gap:12px;
+    border-radius:var(--radius);background:rgba(11,12,14,.62);backdrop-filter:blur(2.5px);-webkit-backdrop-filter:blur(2.5px);
+  }
+  [data-theme="light"] body[data-premium="false"] .premium-section .lock-overlay{background:rgba(243,244,241,.72);}
+  .lock-overlay .lk{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--ink-dim);}
+
+  .modal[hidden]{display:none;}
+  .modal{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.62);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);animation:fade .2s ease both;}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .modal-card{position:relative;width:100%;max-width:440px;max-height:92vh;overflow:auto;background:linear-gradient(180deg,var(--surface),var(--bg-2));border:1px solid var(--line-bright);border-radius:18px;padding:26px 22px 20px;box-shadow:0 30px 80px rgba(0,0,0,.5);}
+  .modal-card h3{font-family:var(--disp);text-transform:uppercase;letter-spacing:.08em;font-size:22px;margin:0 0 4px;}
+  .modal-card h3 .mk{color:var(--accent-ink);}
+  .pw-sub{color:var(--ink-dim);font-size:14px;margin:0 0 16px;}
+  .modal-close{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;border:1px solid var(--line-bright);background:var(--bg);color:var(--ink-dim);font-size:15px;cursor:pointer;line-height:1;}
+  .pw-feats{list-style:none;padding:0;margin:0 0 18px;}
+  .pw-feats li{padding:7px 0 7px 24px;position:relative;color:var(--ink-dim);font-size:14px;border-top:1px solid var(--line);}
+  .pw-feats li:first-child{border-top:0;}
+  .pw-feats li::before{content:"✓";position:absolute;left:2px;color:var(--accent-ink);font-weight:700;}
+  .plans{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+  .plan{position:relative;text-align:left;cursor:pointer;border:1.5px solid var(--line-bright);background:var(--bg);border-radius:13px;padding:14px 14px 13px;transition:border-color .15s,background .15s;}
+  .plan:hover{border-color:var(--ink-faint);}
+  .plan.sel{border-color:var(--accent);background:rgba(var(--accent-rgb),.08);}
+  .plan .pn{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);}
+  .plan .pp{display:block;font-family:var(--mono);font-weight:700;font-size:19px;color:var(--ink);margin-top:5px;}
+  .plan .ptag{position:absolute;top:-9px;right:10px;font-family:var(--mono);font-size:9px;letter-spacing:.05em;background:var(--accent);color:var(--on-accent);border-radius:5px;padding:2px 6px;}
+  .pw-cta{width:100%;justify-content:center;}
+  .pw-restore{display:block;width:100%;text-align:center;background:none;border:0;color:var(--ink-dim);font-family:var(--body);font-size:13px;margin-top:12px;cursor:pointer;text-decoration:underline;}
+  .fineprint{color:var(--ink-faint);font-size:11px;line-height:1.5;margin-top:14px;}
+
+  .lock-list{list-style:none;padding:0;margin:0;}
+  .lock-list li{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line);color:var(--ink-dim);font-size:14.5px;}
+  .lock-list li:first-child{border-top:0;}
+  .lock-list li .lic{color:var(--ink-faint);flex:none;}
+
+  /* ---------- color switcher ---------- */
+  .appearance{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:18px;}
+  .ap-label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);}
+  .palette{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .sw{width:26px;height:26px;border-radius:50%;border:2px solid var(--line-bright);cursor:pointer;padding:0;background:var(--c,transparent);position:relative;transition:transform .12s,border-color .15s;}
+  .sw:hover{transform:scale(1.12);}
+  .sw.on{border-color:var(--ink);box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--c,var(--accent));}
+  .sw.auto{display:grid;place-items:center;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--ink-dim);background:var(--bg);}
+  .sw.auto.on{color:var(--ink);}
+  .sw.custom{overflow:hidden;border-style:dashed;}
+  .sw.custom input[type=color]{position:absolute;inset:-6px;width:40px;height:40px;border:0;padding:0;cursor:pointer;background:transparent;}
+  .sw.custom::after{content:"+";position:absolute;inset:0;display:grid;place-items:center;color:var(--ink-dim);font-size:15px;pointer-events:none;}
+
+  /* ---------- AI coach ---------- */
+  .ai-row{display:flex;gap:10px;flex-wrap:wrap;}
+  .ai-row input{flex:1;min-width:180px;background:var(--bg);color:var(--ink);border:1px solid var(--line-bright);border-radius:10px;padding:12px 13px;font-family:var(--body);font-size:15px;outline:none;}
+  .ai-row input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(var(--accent-rgb),.16);}
+  .ai-row button{flex:none;}
+  .ai-resp{margin-top:14px;padding:14px 16px;border:1px solid var(--line);border-radius:11px;background:var(--bg);color:var(--ink);font-size:14.5px;line-height:1.6;white-space:pre-wrap;display:none;}
+  .ai-resp.show{display:block;}
+  .ai-chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 0;}
+  .ai-chip{font-size:12.5px;color:var(--ink-dim);background:var(--bg);border:1px solid var(--line-bright);border-radius:999px;padding:6px 12px;cursor:pointer;transition:all .15s;}
+  .ai-chip:hover{border-color:var(--accent);color:var(--ink);}
+  .ai-note{font-size:11.5px;color:var(--ink-faint);margin-top:12px;line-height:1.5;}
+
   .disclaimer{margin-top:26px;border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:var(--bg-2);color:var(--ink-faint);font-size:13px;line-height:1.6;}
   .disclaimer b{color:var(--warn);}
 
@@ -311,13 +376,27 @@
   <header class="top">
     <div class="brandrow">
       <div class="logo">BASE<span class="dot">·</span>LINE</div>
-      <span class="ver">PROTOCOL v1.1</span>
+      <span class="ver">PROTOCOL v1.2</span>
       <div class="theme-toggle" role="group" aria-label="Color theme">
         <button type="button" id="theme-dark" class="on">Dark</button>
         <button type="button" id="theme-light">Light</button>
       </div>
     </div>
     <p class="tag">Answer a few questions and get personalized calorie, macro, diet and equipment-tailored training recommendations. Everything runs in your browser — no data leaves this page.</p>
+    <div class="appearance">
+      <span class="ap-label">Accent</span>
+      <div class="palette" id="palette">
+        <button type="button" class="sw auto on" data-accent-mode="auto" title="Auto (matches selected sex)">A</button>
+        <button type="button" class="sw" data-accent-hex="#c2f23f" style="--c:#c2f23f" title="Lime"></button>
+        <button type="button" class="sw" data-accent-hex="#ff5cb0" style="--c:#ff5cb0" title="Pink"></button>
+        <button type="button" class="sw" data-accent-hex="#a371ff" style="--c:#a371ff" title="Violet"></button>
+        <button type="button" class="sw" data-accent-hex="#3ea8ff" style="--c:#3ea8ff" title="Blue"></button>
+        <button type="button" class="sw" data-accent-hex="#26d6c4" style="--c:#26d6c4" title="Teal"></button>
+        <button type="button" class="sw" data-accent-hex="#ff8a3d" style="--c:#ff8a3d" title="Orange"></button>
+        <button type="button" class="sw" data-accent-hex="#ff5747" style="--c:#ff5747" title="Red"></button>
+        <label class="sw custom" title="Custom color"><input type="color" id="customAccent" value="#c2f23f" /></label>
+      </div>
+    </div>
     <hr class="hr" />
   </header>
 
@@ -392,9 +471,9 @@
       </div>
     </section>
 
-    <!-- 02 ACTIVITY + GOAL -->
+    <!-- 02 LIFESTYLE (free) -->
     <section class="section">
-      <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Activity &amp; Goal</h2></div>
+      <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Lifestyle</h2></div>
 
       <div class="field full">
         <label class="lbl" for="activity">Daily lifestyle activity <span style="text-transform:none;letter-spacing:0;color:var(--ink-faint)">(your day, NOT counting workouts)</span></label>
@@ -404,10 +483,15 @@
           <option value="1.45">On your feet often — teaching, retail, parenting</option>
           <option value="1.6">Physically demanding job — manual labor, trades</option>
         </select>
-        <span class="hint">Workouts get added separately below, so pick this based on normal daily life only.</span>
+        <span class="hint">This sets your baseline calories. Workouts, goals &amp; macros are added with Premium.</span>
       </div>
+    </section>
 
-      <div class="grid" style="margin-top:16px">
+    <!-- 03 GOALS & MACROS (premium) -->
+    <section class="section premium-section">
+      <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">Goals &amp; Macros</h2><span class="pro-badge">PRO</span></div>
+
+      <div class="grid">
         <div class="field full">
           <span class="lbl">Primary goal</span>
           <div class="seg" role="radiogroup" aria-label="Goal">
@@ -421,6 +505,47 @@
         </div>
 
         <div class="field full">
+          <label class="lbl" for="goalweight">Goal weight <span style="text-transform:none;letter-spacing:0;color:var(--ink-faint)">(optional — tailors calories, macros &amp; a timeline)</span></label>
+          <div class="ic" style="position:relative">
+            <input type="number" id="goalweight" min="30" max="400" step="0.1" placeholder="—" />
+            <span class="u" id="gw-unit" style="position:absolute;right:11px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:12px;color:var(--ink-faint)">kg</span>
+          </div>
+          <span class="hint">If set, this sets the direction &amp; sizes protein to your target weight. Otherwise we use a standard ±% target.</span>
+        </div>
+
+        <div class="field full">
+          <span class="lbl">Macro style <span style="text-transform:none;letter-spacing:0;color:var(--ink-faint)">(how protein / carbs / fat are split)</span></span>
+          <div class="seg" role="radiogroup" aria-label="Macro style">
+            <input type="radio" name="macro" id="m-standard" value="standard" checked />
+            <label for="m-standard">Standard</label>
+            <input type="radio" name="macro" id="m-highpro" value="highprotein" />
+            <label for="m-highpro">High protein</label>
+            <input type="radio" name="macro" id="m-lowcarb" value="lowcarb" />
+            <label for="m-lowcarb">Low carb</label>
+          </div>
+        </div>
+
+        <div class="field full" id="hp-sub" style="display:none">
+          <span class="lbl">High-protein balance</span>
+          <div class="seg" role="radiogroup" aria-label="High protein balance">
+            <input type="radio" name="hpvar" id="hp-lc" value="lowcarb" checked />
+            <label for="hp-lc">Lower carb · moderate fat</label>
+            <input type="radio" name="hpvar" id="hp-lf" value="lowfat" />
+            <label for="hp-lf">Moderate carb · lower fat</label>
+          </div>
+        </div>
+
+        <div class="field full">
+          <span class="lbl">Workout plan</span>
+          <div class="seg" role="radiogroup" aria-label="Workout plan">
+            <input type="radio" name="wplan" id="wp-yes" value="yes" checked />
+            <label for="wp-yes">Include a plan</label>
+            <input type="radio" name="wplan" id="wp-no" value="no" />
+            <label for="wp-no">Skip — nutrition only</label>
+          </div>
+        </div>
+
+        <div class="field full" id="days-field">
           <span class="lbl">Training days per week</span>
           <div class="seg" role="radiogroup" aria-label="Training days">
             <input type="radio" name="days" id="d2" value="2" />
@@ -435,37 +560,28 @@
             <label for="d6">6</label>
           </div>
         </div>
-
-        <div class="field full">
-          <span class="lbl">Macro style <span style="text-transform:none;letter-spacing:0;color:var(--ink-faint)">(how protein / carbs / fat are split)</span></span>
-          <div class="seg" role="radiogroup" aria-label="Macro style">
-            <input type="radio" name="macro" id="m-standard" value="standard" checked />
-            <label for="m-standard">Standard</label>
-            <input type="radio" name="macro" id="m-highpro" value="highprotein" />
-            <label for="m-highpro">High protein</label>
-            <input type="radio" name="macro" id="m-lowcarb" value="lowcarb" />
-            <label for="m-lowcarb">Low carb</label>
-          </div>
-        </div>
       </div>
+      <div class="lock-overlay"><span class="lk">PREMIUM</span><button type="button" class="btn lock-btn" data-paywall>Unlock with Premium</button></div>
     </section>
 
-    <!-- 03 CARDIO & SPORT -->
-    <section class="section">
-      <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">Cardio &amp; Sport</h2></div>
+    <!-- 04 CARDIO & SPORT (premium) -->
+    <section class="section premium-section">
+      <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">Cardio &amp; Sport</h2><span class="pro-badge">PRO</span></div>
       <p class="hint" style="margin:-8px 0 16px">Select the cardio &amp; sport activities you do on top of the strength plan, then set how often and how long. We add the estimated calorie burn to your daily needs. <em>Don't log the same session twice.</em></p>
       <div class="acts" id="activities">
         <!-- activity cards injected by JS -->
       </div>
+      <div class="lock-overlay"><span class="lk">PREMIUM</span><button type="button" class="btn lock-btn" data-paywall>Unlock with Premium</button></div>
     </section>
 
-    <!-- 04 EQUIPMENT -->
-    <section class="section">
-      <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">Available Equipment</h2></div>
+    <!-- 05 EQUIPMENT (premium) -->
+    <section class="section premium-section">
+      <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">Available Equipment</h2><span class="pro-badge">PRO</span></div>
       <p class="hint" style="margin:-8px 0 16px">Pick everything you have access to. Bodyweight movements are always included. Leave all unchecked for a no-equipment plan.</p>
       <div class="chips" id="equip">
         <!-- chips injected by JS -->
       </div>
+      <div class="lock-overlay"><span class="lk">PREMIUM</span><button type="button" class="btn lock-btn" data-paywall>Unlock with Premium</button></div>
     </section>
 
     <div class="actions">
@@ -481,6 +597,35 @@
   <footer>
     BASELINE runs entirely in your browser · No tracking · No sign-in · <a href="#" id="printlink">Print / Save as PDF</a>
   </footer>
+</div>
+
+<!-- ============ PAYWALL ============ -->
+<div class="modal" id="paywall" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-label="BASELINE Premium">
+    <button class="modal-close" id="pw-close" aria-label="Close">✕</button>
+    <h3>BASE<span class="mk">·</span>LINE <span class="mk">Premium</span></h3>
+    <p class="pw-sub">The free plan gives you your daily calories. Premium unlocks your full personalized protocol.</p>
+    <ul class="pw-feats">
+      <li>Goal &amp; goal-weight calorie targets (cut, maintain, gain)</li>
+      <li>Daily macros — protein / carbs / fat, with macro styles</li>
+      <li>Equipment-tailored workout plans</li>
+      <li>Cardio &amp; sport calorie tracking</li>
+      <li>Hydration &amp; sleep recovery targets</li>
+      <li>AI coach for personalized questions</li>
+    </ul>
+    <div class="plans">
+      <button type="button" class="plan sel" data-plan="monthly">
+        <span class="pn">Monthly</span><span class="pp" id="pw-month-price">$4.99/mo</span>
+      </button>
+      <button type="button" class="plan" data-plan="yearly">
+        <span class="ptag">Save 33%</span>
+        <span class="pn">Yearly</span><span class="pp" id="pw-year-price">$39.99/yr</span>
+      </button>
+    </div>
+    <button type="button" class="btn pw-cta" id="pw-subscribe">Start Premium</button>
+    <button type="button" class="pw-restore" id="pw-restore">Restore purchases</button>
+    <p class="fineprint" id="pw-fine">Subscriptions renew automatically until cancelled. Manage or cancel anytime in your App Store / Google Play account settings. Prices shown are examples and will reflect your store's localized pricing.</p>
+  </div>
 </div>
 
 <script>
@@ -757,50 +902,76 @@
     const exerciseKcalDay = Math.round((strengthKcalWeek + activityKcalWeek) / 7);
     const tdee = baselineTDEE + exerciseKcalDay;
 
-    const factor = d.goal==="lose"?0.80 : d.goal==="build"?1.10 : 1.0;
+    // ---- effective direction (goal weight overrides the radio when provided) ----
+    var dir = d.goal;
+    if (d.goalWeightKg){
+      if (d.goalWeightKg < weightKg - 0.5) dir = "lose";
+      else if (d.goalWeightKg > weightKg + 0.5) dir = "build";
+      else dir = "maintain";
+    }
+
+    const factor = dir==="lose"?0.80 : dir==="build"?1.10 : 1.0;
     let target = Math.round((tdee*factor)/10)*10;
     const floor = d.sex==="female"?1200:1500;
     let floored=false;
-    if(d.goal==="lose" && target<floor){ target=floor; floored=true; }
+    if(dir==="lose" && target<floor){ target=floor; floored=true; }
 
-    // ---- macros (style-aware) ----
+    // ---- macros (style-aware + goal-weight-aware) ----
     const style = d.macroStyle || "standard";
+    const hpVar = d.hpVar || "lowcarb";
     const minFat = Math.round(0.35*weightKg);
+    // dose protein on the GOAL weight when provided (avoids over-dosing on a high current weight)
+    const basisKg = d.goalWeightKg || weightKg;
 
-    // protein targets per goal; bumped for high-protein, solid for low-carb
     let pBW, pLBM;
-    if(style==="highprotein"){ pBW={lose:2.6, maintain:2.2, build:2.4}; pLBM=3.1; }
-    else if(style==="lowcarb"){ pBW={lose:2.3, maintain:2.0, build:2.1}; pLBM=2.8; }
-    else { pBW={lose:2.2, maintain:1.8, build:2.0}; pLBM=2.6; }
-    let protein = Math.round(lbmKg ? pLBM*lbmKg : pBW[d.goal]*weightKg);
+    if(style==="highprotein"){ pBW={lose:2.6, maintain:2.4, build:2.4}; pLBM=3.1; }
+    else if(style==="lowcarb"){ pBW={lose:2.4, maintain:2.2, build:2.2}; pLBM=2.9; }
+    else { pBW={lose:2.2, maintain:2.0, build:2.0}; pLBM=2.6; }   // standard: protein + fat raised so carbs aren't overestimated
+    let protein = Math.round(lbmKg ? pLBM*lbmKg : pBW[dir]*basisKg);
+    if(protein*4 > target - 200){ protein = Math.max(40, Math.floor((target-200)/4)); } // never crowd out all fuel
 
+    function carbsRemainder(f){ return Math.max(0, Math.round((target - protein*4 - f*9)/4)); }
     let fat, carbs;
     if(style==="lowcarb"){
-      // cap carbs (lower of ~20% of cals or 1.1 g/kg); fat fills the rest
-      let carbCap = Math.round(Math.min(0.20*target/4, 1.1*weightKg));
-      carbs = Math.max(30, carbCap);
+      let cap = Math.round(Math.min(0.20*target/4, 1.1*weightKg));
+      carbs = Math.max(30, cap);
       fat = Math.round((target - protein*4 - carbs*4)/9);
-      if(fat < minFat){ // protein+carbs left too little for a healthy fat floor → trim carbs
+      if(fat < minFat){
         carbs = Math.max(20, Math.round((target - protein*4 - minFat*9)/4));
         fat = Math.max(minFat, Math.round((target - protein*4 - carbs*4)/9));
       }
+    } else if(style==="highprotein" && hpVar==="lowfat"){
+      // high protein, moderate carb, lower fat
+      fat = Math.max(minFat, Math.round(0.20*target/9));
+      carbs = carbsRemainder(fat);
+    } else if(style==="highprotein"){
+      // high protein, lower carb, moderate fat (hpVar === "lowcarb")
+      fat = Math.round(0.33*target/9);
+      if(fat < minFat) fat = minFat;
+      carbs = carbsRemainder(fat);
     } else {
-      const fatPct = style==="highprotein" ? 0.23 : 0.25;
-      fat = Math.round(target*fatPct/9);
-      if(fat<minFat) fat=minFat;
-      let carbCals = target - protein*4 - fat*9;
-      if(carbCals < 120){
-        const reduce = Math.ceil((120-carbCals)/9);
-        fat = Math.max(minFat, fat-reduce);
-        carbCals = target - protein*4 - fat*9;
-      }
-      carbs = Math.max(0, Math.round(carbCals/4));
+      // standard: fat ~30% of calories (raised from 25%) -> carbs come down to a balanced level
+      fat = Math.round(0.30*target/9);
+      if(fat < minFat) fat = minFat;
+      let cc = target - protein*4 - fat*9;
+      if(cc < 120){ const reduce = Math.ceil((120-cc)/9); fat = Math.max(minFat, fat-reduce); }
+      carbs = carbsRemainder(fat);
     }
 
     const macroCals = protein*4 + fat*9 + carbs*4;
     const pPct = Math.round(protein*4/macroCals*100);
     const cPct = Math.round(carbs*4/macroCals*100);
     const fPct = 100 - pPct - cPct;
+
+    // ---- goal-weight timeline ----
+    let timeline = null;
+    if(d.goalWeightKg && dir!=="maintain"){
+      const dailyDelta = Math.abs(tdee - target);
+      const weeklyKg = dailyDelta*7/7700;          // ~7700 kcal per kg
+      if(weeklyKg > 0.02){
+        timeline = { weeks: Math.max(1, Math.round(Math.abs(weightKg - d.goalWeightKg)/weeklyKg)), weeklyKg: weeklyKg };
+      }
+    }
 
     // ---- hydration ----  ~35 ml/kg baseline + ~12 ml per daily minute of training
     let weeklyTrainMin = (d.days||0)*STRENGTH_MIN;
@@ -813,9 +984,10 @@
     const sleepExtra = Math.round(Math.min(75, exerciseKcalDay/10)/5)*5;
     const sleepMin = sleepBaseMin + sleepExtra;
 
-    return {bmr:Math.round(bmr), tdee:Math.round(tdee), target:target, formula:formula,
+    return {bmr:Math.round(bmr), tdee:Math.round(tdee), target:target, formula:formula, dir:dir,
             protein:protein, fat:fat, carbs:carbs, pPct:pPct, cPct:cPct, fPct:fPct,
-            floored:floored, macroCals:macroCals, style:style,
+            floored:floored, macroCals:macroCals, style:style, hpVar:hpVar,
+            basisKg:basisKg, goalWeightKg:d.goalWeightKg||null, timeline:timeline,
             baseline:Math.round(baselineTDEE), exercise:exerciseKcalDay,
             strengthKcalDay:Math.round(strengthKcalWeek/7),
             activityKcalDay:Math.round(activityKcalWeek/7),
@@ -826,11 +998,11 @@
   /* ---------- diet guidance ---------- */
   function dietTips(d, r){
     const tips=[];
-    if(d.goal==="lose"){
+    if(r.dir==="lose"){
       tips.push("<strong>You're in a deficit (~20% below maintenance).</strong> Expect roughly 0.3–0.7&nbsp;kg (0.7–1.5&nbsp;lb) of fat loss per week. If the scale hasn't moved in 2–3 weeks, drop calories by ~100–150.");
       tips.push("<strong>Protein is your anchor.</strong> High protein preserves muscle while you lose fat and keeps you full. Hit your protein target first, every day.");
       tips.push("<strong>Prioritize volume foods</strong> — vegetables, lean proteins, fruit, potatoes, legumes. They fill you up for few calories and make the deficit feel easier.");
-    } else if(d.goal==="build"){
+    } else if(r.dir==="build"){
       tips.push("<strong>You're in a slight surplus (~10% above maintenance).</strong> Aim for ~0.25–0.5&nbsp;kg (0.5–1&nbsp;lb) gained per week. Faster than that and most of it is fat. Adjust up if weight stalls for 2+ weeks.");
       tips.push("<strong>Spread protein across 3–4 meals</strong> of 30–50&nbsp;g each to maximize muscle protein synthesis through the day.");
       tips.push("<strong>Carbs fuel your training.</strong> Put a good chunk of your carbs around your workout for better performance and recovery.");
@@ -849,34 +1021,76 @@
   function esc(s){return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
   function fmtHM(min){ const h=Math.floor(min/60), m=min%60; return h+"<small>h</small> "+(m<10?"0"+m:m)+"<small>m</small>"; }
 
-  function render(d, r, plan){
-    const lbBack = function(kg){ return d.units==="imperial" ? Math.round(kg*2.20462) : kg; };
+  const lockSvg = "<svg width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='4' y='11' width='16' height='9' rx='2'/><path d='M8 11V7a4 4 0 0 1 8 0v4'/></svg>";
+  function discHtml(){ return "<div class='disclaimer'><b>Heads up:</b> These are general estimates from population-level formulas, not personalized medical or nutritional advice. Individual needs vary. If you're pregnant, have a medical condition or eating-disorder history, are under 18, or are unsure how to start, please check with a doctor or registered dietitian first. Adjust based on real-world results over 2–4 weeks rather than chasing the numbers exactly.</div>"; }
+  function macroStyleLabel(r){
+    if(r.style==="standard") return ["Standard split","balanced — protein anchored, ~30% of calories from fat, the rest carbs."];
+    if(r.style==="lowcarb") return ["Low carb","carbs capped low and dietary fat fills the gap — strong appetite control, though top-end performance can dip at first."];
+    if(r.style==="highprotein" && r.hpVar==="lowfat") return ["High protein · moderate carb · lower fat","protein high, carbs kept to fuel training, fat lean."];
+    return ["High protein · lower carb · moderate fat","protein high, carbs kept down, fat moderate."];
+  }
+
+  function render(d, r, plan, premium){
     const out = document.getElementById("results");
+    const unit = d.units==="imperial" ? "lb" : "kg";
+    const showW = function(kg){ return d.units==="imperial" ? Math.round(kg*2.20462) : Math.round(kg); };
 
-    let goalLabel = d.goal==="lose"?"Fat Loss":d.goal==="build"?"Muscle Gain":"Maintenance";
-
-    const styleMap = {
-      standard:["Standard split","balanced — protein anchored, ~25% of calories from fat, the rest carbs."],
-      highprotein:["High protein","protein pushed high for satiety and muscle retention, with fat trimmed slightly to make room."],
-      lowcarb:["Low carb","carbs capped low and dietary fat makes up the difference — good for appetite control, though top-end performance can dip at first."]
-    };
-    const styleLabel = (styleMap[r.style]||styleMap.standard)[0];
-    const styleBlurb = (styleMap[r.style]||styleMap.standard)[1];
+    let goalLabel = r.dir==="lose" ? "Fat Loss" : r.dir==="build" ? (d.goal==="build" && !r.goalWeightKg ? "Muscle Gain" : "Weight Gain") : "Maintenance";
+    if(r.goalWeightKg){ goalLabel += " → " + showW(r.goalWeightKg) + " " + unit; }
 
     let html = "";
+
+    /* ============ FREE TIER — calories only ============ */
+    if(!premium){
+      html += "<div class='res-banner'>Your calories</div>";
+      html += "<div class='stat-grid'>";
+      html += "<div class='stat'><div class='k'>BMR</div><div class='v'>"+r.bmr+" <small>kcal</small></div></div>";
+      html += "<div class='stat hl'><div class='k'>Maintenance / day</div><div class='v'>"+r.tdee+" <small>kcal</small></div></div>";
+      html += "<div class='stat'><div class='k'>Goal target</div><div class='v' style='color:var(--ink-faint)'>"+lockSvg+"</div></div>";
+      html += "<div class='stat'><div class='k'>Macros</div><div class='v' style='color:var(--ink-faint)'>"+lockSvg+"</div></div>";
+      html += "</div>";
+      html += "<p class='hint' style='margin:-6px 0 0'>"+esc(r.formula)+" BMR × your lifestyle activity ("+d.activity+") = your baseline maintenance calories. Set a goal weight, log workouts and get full macros, plans &amp; an AI coach with Premium.</p>";
+      html += "<div class='panel'><h3><span class='tagnum'>PREMIUM</span> Unlock your full protocol</h3>";
+      html += "<ul class='lock-list'>"+
+        "<li><span class='lic'>"+lockSvg+"</span>Goal &amp; goal-weight calorie targets (cut, maintain, gain)</li>"+
+        "<li><span class='lic'>"+lockSvg+"</span>Daily macros &amp; macro styles (high-protein, low-carb…)</li>"+
+        "<li><span class='lic'>"+lockSvg+"</span>Equipment-tailored workout plans</li>"+
+        "<li><span class='lic'>"+lockSvg+"</span>Cardio &amp; sport calorie tracking</li>"+
+        "<li><span class='lic'>"+lockSvg+"</span>Hydration &amp; sleep recovery targets</li>"+
+        "<li><span class='lic'>"+lockSvg+"</span>AI coach for personalized questions</li>"+
+      "</ul>";
+      html += "<button type='button' class='btn' data-paywall style='margin-top:2px'>See Premium</button>";
+      html += "</div>";
+      html += discHtml();
+      out.innerHTML = html;
+      out.classList.add("show");
+      out.scrollIntoView({behavior:"smooth", block:"start"});
+      return;
+    }
+
+    /* ============ PREMIUM TIER — full protocol ============ */
     html += "<div class='res-banner'>Protocol generated — "+esc(goalLabel)+"</div>";
 
-    // stats
     html += "<div class='stat-grid'>";
     html += "<div class='stat'><div class='k'>BMR</div><div class='v'>"+r.bmr+" <small>kcal</small></div></div>";
     html += "<div class='stat'><div class='k'>Maintenance (TDEE)</div><div class='v'>"+r.tdee+" <small>kcal</small></div></div>";
     html += "<div class='stat hl'><div class='k'>Daily Target</div><div class='v'>"+r.target+" <small>kcal</small></div></div>";
     html += "<div class='stat'><div class='k'>Protein / day</div><div class='v'>"+r.protein+" <small>g</small></div></div>";
     html += "</div>";
-    html += "<p class='hint' style='margin:-6px 0 0'>"+esc(r.formula)+" BMR × lifestyle ("+d.activity+") = <b style='color:var(--ink-dim)'>"+r.baseline+"</b> baseline + <b style='color:var(--ink-dim)'>"+r.exercise+"</b> kcal/day from training ("+d.days+" strength session"+(d.days===1?"":"s")+(d.activities.length? " + "+d.activities.length+" logged "+(d.activities.length===1?"activity":"activities"):"")+") = <b style='color:var(--accent-ink)'>"+r.tdee+"</b> maintenance."+
+
+    var trainBits = [];
+    if(d.days>0) trainBits.push(d.days+" strength session"+(d.days===1?"":"s"));
+    if(d.activities.length) trainBits.push(d.activities.length+" logged "+(d.activities.length===1?"activity":"activities"));
+    var trainTxt = trainBits.length ? trainBits.join(" + ") : "no logged training";
+    html += "<p class='hint' style='margin:-6px 0 0'>"+esc(r.formula)+" BMR × lifestyle ("+d.activity+") = <b style='color:var(--ink-dim)'>"+r.baseline+"</b> baseline + <b style='color:var(--ink-dim)'>"+r.exercise+"</b> kcal/day from training ("+trainTxt+") = <b style='color:var(--accent-ink)'>"+r.tdee+"</b> maintenance."+
             (r.floored?" <span style='color:var(--warn)'>Target raised to a safe minimum floor.</span>":"")+"</p>";
+    if(r.timeline){
+      var rate = d.units==="imperial" ? (r.timeline.weeklyKg*2.20462).toFixed(1)+" lb" : r.timeline.weeklyKg.toFixed(2)+" kg";
+      html += "<p class='hint' style='margin:7px 0 0'>At this target you'd reach <b style='color:var(--accent-ink)'>"+showW(r.goalWeightKg)+" "+unit+"</b> in about <b>"+r.timeline.weeks+" weeks</b> (~"+rate+"/week). Protein is sized to your goal weight.</p>";
+    }
 
     // macros
+    var sl = macroStyleLabel(r);
     html += "<div class='panel'><h3><span class='tagnum'>MACROS</span> Daily Macronutrient Targets</h3>";
     html += "<div class='macro-bar'>"+
             "<span style='width:"+r.pPct+"%;background:var(--accent)'></span>"+
@@ -887,7 +1101,7 @@
     html += "<div class='macro' style='border-left-color:var(--carb)'><div class='mlabel'>Carbs</div><div class='mg'>"+r.carbs+"<span style='font-size:14px;color:var(--ink-dim)'> g</span></div><div class='msub'>"+r.cPct+"% · "+(r.carbs*4)+" kcal</div></div>";
     html += "<div class='macro' style='border-left-color:var(--warn)'><div class='mlabel'>Fat</div><div class='mg'>"+r.fat+"<span style='font-size:14px;color:var(--ink-dim)'> g</span></div><div class='msub'>"+r.fPct+"% · "+(r.fat*9)+" kcal</div></div>";
     html += "</div>";
-    html += "<p class='hint' style='margin:14px 0 0'>Macro style: <b style='color:var(--accent-ink)'>"+esc(styleLabel)+"</b> — "+styleBlurb+"</p>";
+    html += "<p class='hint' style='margin:14px 0 0'>Macro style: <b style='color:var(--accent-ink)'>"+esc(sl[0])+"</b> — "+sl[1]+"</p>";
     html += "</div>";
 
     // diet
@@ -917,40 +1131,51 @@
     html += "<div class='cardio-note' style='margin-top:14px'>Bedtime allows ~20 min to fall asleep. Keep the room dark and cool (~18 °C / 65 °F) and dim screens for an hour beforehand.</div>";
     html += "</div>";
 
-    // workout
-    const dayCount = d.days;
-    html += "<div class='panel'><h3><span class='tagnum'>TRAIN</span> "+dayCount+"-Day Training Split</h3>";
-    html += "<div class='wk-meta'>";
-    html += "<span class='badge'>Goal: <b>"+esc(goalLabel)+"</b></span>";
-    html += "<span class='badge'>Frequency: <b>"+dayCount+"×/week</b></span>";
-    const eqNames = d.equipList.length ? d.equipList.join(", ") : "Bodyweight only";
-    html += "<span class='badge'>Equipment: <b>"+esc(eqNames)+"</b></span>";
-    html += "</div>";
-
-    plan.forEach(function(day){
-      html += "<div class='day'><div class='day-head'><span class='dname'>"+esc(day.day)+"</span><span class='dtype'>"+esc(day.type)+"</span></div>";
-      html += "<table class='ex'>";
-      day.exercises.forEach(function(ex){
-        html += "<tr><td>"+esc(ex.name)+"</td><td>"+esc(ex.scheme)+" &nbsp;·&nbsp; rest "+esc(ex.rest)+"</td></tr>";
+    // workout (only if a plan was generated)
+    if(plan){
+      const dayCount = d.days;
+      html += "<div class='panel'><h3><span class='tagnum'>TRAIN</span> "+dayCount+"-Day Training Split</h3>";
+      html += "<div class='wk-meta'>";
+      html += "<span class='badge'>Goal: <b>"+esc(goalLabel)+"</b></span>";
+      html += "<span class='badge'>Frequency: <b>"+dayCount+"×/week</b></span>";
+      const eqNames = d.equipList.length ? d.equipList.join(", ") : "Bodyweight only";
+      html += "<span class='badge'>Equipment: <b>"+esc(eqNames)+"</b></span>";
+      html += "</div>";
+      plan.forEach(function(day){
+        html += "<div class='day'><div class='day-head'><span class='dname'>"+esc(day.day)+"</span><span class='dtype'>"+esc(day.type)+"</span></div>";
+        html += "<table class='ex'>";
+        day.exercises.forEach(function(ex){
+          html += "<tr><td>"+esc(ex.name)+"</td><td>"+esc(ex.scheme)+" &nbsp;·&nbsp; rest "+esc(ex.rest)+"</td></tr>";
+        });
+        html += "</table></div>";
       });
-      html += "</table></div>";
-    });
-
-    if(d.activities.length){
-      const parts = d.activities.map(function(a){ return esc(a.label)+" "+a.freq+"×"+a.dur+" min"; });
-      html += "<div class='cardio-note'><b>Your conditioning (already in your calorie math):</b> "+parts.join(" · ")+". That's ≈ "+r.activityKcalDay+" kcal/day on top of ≈ "+r.strengthKcalDay+" kcal/day from your "+d.days+" lifting session"+(d.days===1?"":"s")+".</div>";
-    } else {
-      html += "<div class='cardio-note'>"+cardioFor(d.goal)+"</div>";
+      if(d.activities.length){
+        const parts = d.activities.map(function(a){ return esc(a.label)+" "+a.freq+"×"+a.dur+" min"; });
+        html += "<div class='cardio-note'><b>Your conditioning (already in your calorie math):</b> "+parts.join(" · ")+". That's ≈ "+r.activityKcalDay+" kcal/day on top of ≈ "+r.strengthKcalDay+" kcal/day from your "+d.days+" lifting session"+(d.days===1?"":"s")+".</div>";
+      } else {
+        html += "<div class='cardio-note'>"+cardioFor(r.dir)+"</div>";
+      }
+      html += "<div class='cardio-note'><b>Progressive overload:</b> each week try to add a rep, a little load, or one extra set to a few lifts. That steady progression — not any single workout — is what drives results. Warm up 5–10 min and leave 1–2 reps in reserve on most sets.</div>";
+      html += "</div>";
     }
-    html += "<div class='cardio-note'><b>Progressive overload:</b> each week try to add a rep, a little load, or one extra set to a few lifts. That steady progression — not any single workout — is what drives results. Warm up 5–10 min and leave 1–2 reps in reserve on most sets.</div>";
+
+    // AI coach
+    html += "<div class='panel'><h3><span class='tagnum'>AI</span> AI Coach</h3>";
+    html += "<p class='hint' style='margin:-6px 0 12px'>Ask anything about your plan — meal ideas, food swaps, training questions.</p>";
+    html += "<div class='ai-row'><input type='text' id='ai-q' placeholder='e.g. A high-protein breakfast under 500 kcal' /><button type='button' class='btn' id='ai-ask'>Ask</button></div>";
+    html += "<div class='ai-chips'>"+
+      "<span class='ai-chip' data-ai='Suggest 3 simple meals that fit my macros today.'>Meal ideas</span>"+
+      "<span class='ai-chip' data-ai='Good high-protein snacks for my plan?'>Snacks</span>"+
+      "<span class='ai-chip' data-ai='How do I adjust if my weight stalls for two weeks?'>If I stall</span>"+
+    "</div>";
+    html += "<div class='ai-resp' id='ai-resp'></div>";
+    html += "<p class='ai-note'>Answers are AI-generated and may be imperfect — not medical advice. Your question and a short summary of your plan are sent to a free third-party AI service (Pollinations) to generate the reply; don't include personal identifying details.</p>";
     html += "</div>";
 
-    // disclaimer
-    html += "<div class='disclaimer'><b>Heads up:</b> These are general estimates from population-level formulas, not personalized medical or nutritional advice. Individual needs vary. If you're pregnant, have a medical condition or eating disorder history, are under 18, or are unsure how to start, please check with a doctor or registered dietitian first. Adjust based on real-world results over 2–4 weeks rather than chasing the numbers exactly.</div>";
-
+    html += discHtml();
     out.innerHTML = html;
 
-    // sleep planner: wake time -> suggested lights-out (sleep need + ~20 min latency)
+    // sleep planner wiring
     const wakeEl = document.getElementById("wake");
     if(wakeEl){
       const backMin = r.sleepMin + 20;
@@ -969,6 +1194,26 @@
       calcBed();
     }
 
+    // AI coach wiring
+    const aiAsk = document.getElementById("ai-ask");
+    if(aiAsk){
+      const ctx = "You are a concise, practical fitness and nutrition coach. Avoid medical claims. The user's daily plan: maintenance "+r.tdee+" kcal, target "+r.target+" kcal (goal: "+r.dir+"). Daily macros: protein "+r.protein+" g, carbs "+r.carbs+" g, fat "+r.fat+" g. Answer in under 130 words, friendly and specific.";
+      const respEl = document.getElementById("ai-resp");
+      const qEl = document.getElementById("ai-q");
+      const ask = function(q){
+        if(!q) return;
+        respEl.classList.add("show");
+        respEl.textContent = "Thinking…";
+        fetch("https://gen.pollinations.ai/text/" + encodeURIComponent(ctx + "\n\nQuestion: " + q))
+          .then(function(res){ if(!res.ok) throw new Error("bad"); return res.text(); })
+          .then(function(t){ respEl.textContent = (t||"").trim() || "No response — try rephrasing your question."; })
+          .catch(function(){ respEl.textContent = "The AI coach is unavailable right now (the free service may be busy). Please try again in a moment."; });
+      };
+      aiAsk.addEventListener("click", function(){ ask(qEl.value.trim()); });
+      qEl.addEventListener("keydown", function(e){ if(e.key==="Enter"){ ask(qEl.value.trim()); } });
+      out.querySelectorAll(".ai-chip").forEach(function(c){ c.addEventListener("click", function(){ qEl.value=c.getAttribute("data-ai"); ask(qEl.value); }); });
+    }
+
     out.classList.add("show");
     out.scrollIntoView({behavior:"smooth", block:"start"});
   }
@@ -982,6 +1227,7 @@
     document.getElementById("ht-imp").style.display = imp?"flex":"none";
     document.getElementById("wt-unit").textContent = imp?"lb":"kg";
     document.getElementById("lbm-unit").textContent = imp?"lb":"kg";
+    document.getElementById("gw-unit").textContent = imp?"lb":"kg";
   }
   document.querySelectorAll("input[name=units]").forEach(function(el){ el.addEventListener("change", syncUnits); });
   syncUnits();
@@ -990,21 +1236,99 @@
   const root = document.documentElement;
   const tDark = document.getElementById("theme-dark");
   const tLight = document.getElementById("theme-light");
+  var accentMode = "auto", customHex = null;   // declared before syncAccent runs
   function setTheme(mode){
     root.setAttribute("data-theme", mode);
     tDark.classList.toggle("on", mode==="dark");
     tLight.classList.toggle("on", mode==="light");
+    if(accentMode==="custom" && customHex) applyAccent(customHex); // recompute readable ink for new mode
   }
   tDark.addEventListener("click", function(){ setTheme("dark"); });
   tLight.addEventListener("click", function(){ setTheme("light"); });
 
-  /* ---------- accent follows selected sex (female → pink/purple) ---------- */
+  /* ---------- accent follows selected sex unless a custom color is chosen ---------- */
   function syncAccent(){
+    if(accentMode==="custom") return;
     const sex = document.querySelector("input[name=sex]:checked").value;
     root.setAttribute("data-accent", sex==="female" ? "pink" : "green");
   }
   document.querySelectorAll("input[name=sex]").forEach(function(el){ el.addEventListener("change", syncAccent); });
   syncAccent();
+
+  /* ---------- custom color switcher ---------- */
+  function hexToRgb(h){ h=h.replace('#',''); if(h.length===3) h=h.split('').map(function(c){return c+c;}).join(''); const n=parseInt(h,16); return [(n>>16)&255,(n>>8)&255,n&255]; }
+  function rgbToHsl(r,g,b){ r/=255;g/=255;b/=255; const mx=Math.max(r,g,b),mn=Math.min(r,g,b); let h,s,l=(mx+mn)/2; if(mx===mn){h=s=0;} else { const d=mx-mn; s=l>0.5?d/(2-mx-mn):d/(mx+mn); switch(mx){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;default:h=(r-g)/d+4;} h/=6; } return [h*360,s,l]; }
+  function hslToHex(h,s,l){ h=((h%360)+360)%360/360; function f(p,q,t){ if(t<0)t+=1; if(t>1)t-=1; if(t<1/6)return p+(q-p)*6*t; if(t<1/2)return q; if(t<2/3)return p+(q-p)*(2/3-t)*6; return p; } let r,g,b; if(s===0){r=g=b=l;} else { const q=l<0.5?l*(1+s):l+s-l*s; const p=2*l-q; r=f(p,q,h+1/3); g=f(p,q,h); b=f(p,q,h-1/3); } const to=function(x){return ('0'+Math.round(x*255).toString(16)).slice(-2);}; return '#'+to(r)+to(g)+to(b); }
+  function lum(r,g,b){ return 0.2126*r+0.7152*g+0.0722*b; }
+  function applyAccent(hex){
+    accentMode="custom"; customHex=hex;
+    root.setAttribute("data-accent","custom");
+    const rgb=hexToRgb(hex), hsl=rgbToHsl(rgb[0],rgb[1],rgb[2]);
+    const a2=hslToHex(hsl[0]+38, Math.min(1,hsl[1]*0.95+0.05), Math.min(0.78,hsl[2]+0.06));
+    const rgb2=hexToRgb(a2);
+    const dark = root.getAttribute("data-theme")!=="light";
+    const ink = dark ? hslToHex(hsl[0], Math.min(1,hsl[1]+0.08), Math.max(hsl[2],0.62))
+                     : hslToHex(hsl[0], Math.min(1,hsl[1]+0.05), Math.min(hsl[2],0.40));
+    const on = lum(rgb[0],rgb[1],rgb[2]) > 140 ? "#14180a" : "#ffffff";
+    const S=root.style;
+    S.setProperty('--accent',hex); S.setProperty('--accent-2',a2);
+    S.setProperty('--accent-rgb',rgb.join(',')); S.setProperty('--accent-2-rgb',rgb2.join(','));
+    S.setProperty('--accent-ink',ink); S.setProperty('--accent-dim',ink); S.setProperty('--on-accent',on);
+  }
+  function setAccentAuto(){ accentMode="auto"; customHex=null; ['--accent','--accent-2','--accent-rgb','--accent-2-rgb','--accent-ink','--accent-dim','--on-accent'].forEach(function(v){ root.style.removeProperty(v); }); syncAccent(); }
+  (function wirePalette(){
+    const pal=document.getElementById("palette"); if(!pal) return;
+    const sws=pal.querySelectorAll(".sw");
+    function mark(el){ sws.forEach(function(s){ s.classList.remove("on"); }); if(el) el.classList.add("on"); }
+    pal.querySelectorAll("[data-accent-hex]").forEach(function(b){ b.addEventListener("click", function(){ applyAccent(b.getAttribute("data-accent-hex")); mark(b); }); });
+    const auto=pal.querySelector("[data-accent-mode=auto]"); if(auto) auto.addEventListener("click", function(){ setAccentAuto(); mark(auto); });
+    const cu=document.getElementById("customAccent"); if(cu) cu.addEventListener("input", function(){ applyAccent(cu.value); mark(cu.parentElement); });
+  })();
+
+  /* ---------- premium / paywall ---------- */
+  window.Premium = (function(){
+    var active=false, listeners=[], ENT="premium", selectedPlan="monthly";
+    var RC_KEY_IOS="appl_XXXXXXXXXXXX", RC_KEY_ANDROID="goog_XXXXXXXXXXXX"; // <-- your RevenueCat public keys
+    function rc(){ return (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Purchases) || null; }
+    function notify(){ listeners.forEach(function(f){ try{f(active);}catch(e){} }); }
+    function setActive(v){ active=!!v; document.body.setAttribute("data-premium", active?"true":"false"); notify(); }
+    function entActive(info){ try{ var i=info.customerInfo||info; return !!(i.entitlements && i.entitlements.active && i.entitlements.active[ENT]); }catch(_){ return false; } }
+    function refresh(){ var P=rc(); if(!P) return; P.getCustomerInfo().then(function(i){ setActive(entActive(i)); }).catch(function(){}); }
+    function pick(off,kw){ var ps=(off&&off.availablePackages)||[]; for(var i=0;i<ps.length;i++){ var id=((ps[i].identifier||"")+(ps[i].packageType||"")).toLowerCase(); if(id.indexOf(kw)>=0) return ps[i]; } return null; }
+    function setText(id,t){ var e=document.getElementById(id); if(e&&t) e.textContent=t; }
+    function loadPrices(){ var P=rc(); if(!P) return; P.getOfferings().then(function(o){ var c=o&&o.current; if(!c) return; var m=c.monthly||pick(c,"month"), y=c.annual||pick(c,"year"); if(m&&m.product) setText("pw-month-price",m.product.priceString); if(y&&y.product) setText("pw-year-price",y.product.priceString); }).catch(function(){}); }
+    function initNative(){ var P=rc(); if(!P) return false; try{ var plat=window.Capacitor.getPlatform(); P.configure({apiKey: plat==="ios"?RC_KEY_IOS:RC_KEY_ANDROID}); }catch(e){} refresh(); loadPrices(); return true; }
+    function purchase(plan){
+      var P=rc();
+      if(!P){ var f=document.getElementById("pw-fine"); if(f) f.innerHTML="Subscriptions are processed by the App Store / Google Play in the installed app. (To preview Premium on web, reload this page with <code>?premium=1</code> in the URL.)"; return; }
+      P.getOfferings().then(function(o){ var c=o&&o.current; if(!c) throw 0; var pkg=plan==="yearly"?(c.annual||pick(c,"year")):(c.monthly||pick(c,"month")); if(!pkg) throw 0; return P.purchasePackage({aPackage:pkg}); })
+       .then(function(res){ setActive(entActive(res)); if(active) closePaywall(); }).catch(function(){});
+    }
+    function restore(){ var P=rc(); if(!P) return; P.restorePurchases().then(function(i){ setActive(entActive(i)); if(active) closePaywall(); }).catch(function(){}); }
+    function openPaywall(){ var m=document.getElementById("paywall"); if(m) m.hidden=false; }
+    function closePaywall(){ var m=document.getElementById("paywall"); if(m) m.hidden=true; }
+    document.body.setAttribute("data-premium","false");
+    try{ if(/[?&]premium=1(\b|&|$)/.test(location.search)) setActive(true); }catch(e){}
+    initNative();
+    return { isActive:function(){return active;}, onChange:function(f){listeners.push(f);}, purchase:purchase, restore:restore, refresh:refresh, openPaywall:openPaywall, closePaywall:closePaywall, setActive:setActive, selectPlan:function(p){selectedPlan=p;}, getPlan:function(){return selectedPlan;} };
+  })();
+  (function wirePaywall(){
+    document.addEventListener("click", function(e){ var t=e.target.closest("[data-paywall]"); if(t){ e.preventDefault(); window.Premium.openPaywall(); } });
+    var c=document.getElementById("pw-close"); if(c) c.addEventListener("click", window.Premium.closePaywall);
+    var m=document.getElementById("paywall"); if(m) m.addEventListener("click", function(e){ if(e.target===m) window.Premium.closePaywall(); });
+    var plans=document.querySelectorAll(".plan");
+    plans.forEach(function(p){ p.addEventListener("click", function(){ plans.forEach(function(x){x.classList.remove("sel");}); p.classList.add("sel"); window.Premium.selectPlan(p.getAttribute("data-plan")); }); });
+    var sub=document.getElementById("pw-subscribe"); if(sub) sub.addEventListener("click", function(){ window.Premium.purchase(window.Premium.getPlan()); });
+    var rs=document.getElementById("pw-restore"); if(rs) rs.addEventListener("click", function(){ window.Premium.restore(); });
+  })();
+
+  /* ---------- conditional fields ---------- */
+  function syncMacroSub(){ document.getElementById("hp-sub").style.display = document.getElementById("m-highpro").checked ? "flex" : "none"; }
+  document.querySelectorAll("input[name=macro]").forEach(function(el){ el.addEventListener("change", syncMacroSub); });
+  syncMacroSub();
+  function syncWorkoutPlan(){ document.getElementById("days-field").style.display = document.getElementById("wp-no").checked ? "none" : "flex"; }
+  document.querySelectorAll("input[name=wplan]").forEach(function(el){ el.addEventListener("change", syncWorkoutPlan); });
+  syncWorkoutPlan();
 
   /* ---------- collect + validate ---------- */
   function num(id){ const v=parseFloat(document.getElementById(id).value); return isNaN(v)?null:v; }
@@ -1016,6 +1340,8 @@
     const goal = document.querySelector("input[name=goal]:checked").value;
     const days = parseInt(document.querySelector("input[name=days]:checked").value,10);
     const macroStyle = document.querySelector("input[name=macro]:checked").value;
+    const hpVar = document.querySelector("input[name=hpvar]:checked").value;
+    const workoutPlan = document.querySelector("input[name=wplan]:checked").value;
     const activity = parseFloat(document.getElementById("activity").value);
 
     const age = num("age");
@@ -1042,6 +1368,12 @@
       if(weightKg!=null && lbmKg >= weightKg) errs.push("Lean body mass can't be greater than total weight.");
     }
 
+    let gwRaw = num("goalweight");
+    let goalWeightKg = null;
+    if(gwRaw!==null && gwRaw>0){
+      goalWeightKg = (u==="imperial") ? gwRaw/2.20462 : gwRaw;
+    }
+
     const equipList=[]; const avail=new Set(["bodyweight"]);
     EQUIP.forEach(function(e){
       const cb=document.getElementById("eq-"+e.k);
@@ -1060,12 +1392,31 @@
       }
     });
 
-    return {errs:errs, data:{units:u, sex:sex, goal:goal, days:days, activity:activity, macroStyle:macroStyle,
+    return {errs:errs, data:{units:u, sex:sex, goal:goal, days:days, activity:activity,
+            macroStyle:macroStyle, hpVar:hpVar, workoutPlan:workoutPlan, goalWeightKg:goalWeightKg,
             age:age, heightCm:heightCm, weightKg:weightKg, lbmKg:lbmKg,
             avail:avail, equipList:equipList, activities:activities}};
   }
 
-  /* ---------- submit ---------- */
+  /* ---------- generate pipeline ---------- */
+  let lastData = null;
+  function runGenerate(){
+    if(!lastData) return;
+    const premium = !!(window.Premium && window.Premium.isActive());
+    const dd = {}; for(var k in lastData){ dd[k]=lastData[k]; }
+    if(!premium){
+      // free tier: calories only — neutralize every premium input
+      dd.goal="maintain"; dd.goalWeightKg=null; dd.macroStyle="standard"; dd.hpVar="lowcarb";
+      dd.days=0; dd.activities=[]; dd.avail=new Set(["bodyweight"]); dd.equipList=[]; dd.workoutPlan="no";
+    } else if(dd.workoutPlan==="no"){
+      dd.days=0; // skip workout assumptions when the plan is opted out
+    }
+    const r = compute(dd);
+    const plan = (premium && dd.workoutPlan!=="no" && dd.days>0) ? buildWorkout(dd.days, r.dir, dd.avail) : null;
+    render(dd, r, plan, premium);
+  }
+  if(window.Premium){ window.Premium.onChange(function(){ if(lastData) runGenerate(); }); }
+
   document.getElementById("f").addEventListener("submit", function(ev){
     ev.preventDefault();
     const errBox=document.getElementById("err");
@@ -1076,15 +1427,14 @@
       return;
     }
     errBox.textContent="";
-    const r = compute(g.data);
-    const plan = buildWorkout(g.data.days, g.data.goal, g.data.avail);
-    render(g.data, r, plan);
+    lastData = g.data;
+    runGenerate();
   });
 
   document.getElementById("reset").addEventListener("click", function(){
     document.getElementById("f").reset();
-    syncUnits();
-    syncAccent();
+    syncUnits(); syncAccent(); syncMacroSub(); syncWorkoutPlan();
+    lastData = null;
     document.getElementById("err").textContent="";
     const out=document.getElementById("results");
     out.classList.remove("show"); out.innerHTML="";
